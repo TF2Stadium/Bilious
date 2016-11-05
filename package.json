@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "lint": "eslint --cache src/**.js",
     "test": "echo \"Error: no test specified\""
   },
   "keywords": [
@@ -26,5 +27,9 @@
     "express": "4.14.0",
     "localenv": "0.2.2",
     "ramda": "0.22.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "7.1.0",
+    "eslint": "3.9.1"
   }
 }
