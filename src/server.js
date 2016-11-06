@@ -1,12 +1,13 @@
 import express from 'express';
 import createDebug from 'debug';
-import {propOr} from 'ramda';
+import {port} from './env';
 const debug = createDebug('bilious');
 
-const server = express();
+export function createServer(db) {
+  const server = express();
 
-server.use((req, res) => res.send('Hello World'));
+  server.use((req, res) => res.send('Hello World'));
 
-const port = parseInt(propOr('80', 'PORT', process.env), 10);
-server.listen(port);
-debug(`Listening on ${port}`);
+  server.listen(port);
+  debug(`Listening on ${port}`);
+}
