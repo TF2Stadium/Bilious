@@ -1,6 +1,6 @@
 require('./setup');
 
-var server = require('../src/server'),
+var createServer = require('../src/server').createServer,
   connectDb = require('../src/db').connect;
 
-server(connectDb);
+createServer(connectDb);

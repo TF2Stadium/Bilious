@@ -8,4 +8,3 @@
 require('localenv');
 require('debug').enable(process.env.DEBUG);
 require('babel-register');
-require('./src/server');
