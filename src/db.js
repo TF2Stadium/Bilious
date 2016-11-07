@@ -1,5 +1,5 @@
-import r from 'rethinkdb';
-import {partial} from 'ramda';
-import {rethink as rethinkConfig} from './env';
+import pg from './pg';
+import {postgres as postgresConfig} from './env';
 
-export const connect = partial(r.connect, [rethinkConfig]);
+const db = pg(postgresConfig);
+export const connect = () => db.connect();

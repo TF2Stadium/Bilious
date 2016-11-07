@@ -29,8 +29,8 @@
     "express": "4.14.0",
     "localenv": "0.2.2",
     "morgan": "1.7.0",
-    "ramda": "0.22.1",
-    "rethinkdb": "2.3.3"
+    "pg-promise": "5.3.5",
+    "ramda": "0.22.1"
   },
   "devDependencies": {
     "babel-eslint": "7.1.0",
