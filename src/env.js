@@ -5,7 +5,15 @@ const strEnv = (name, def) =>
   int = s => parseInt(s, 10),
   intEnv = compose(int, strEnv);
 
+const nodeEnv = strEnv('NODE_ENV', 'development');
+
 export const port = intEnv('PORT', 8080),
+         isProd = nodeEnv === 'production',
+         isDev = !isProd,
+         jwt = {
+           issuer: strEnv('JWT_ISSUER', 'http://localhost'),
+           secret: strEnv('JWT_SECRET', 'AAAAAAAAA'),
+         },
          postgres = {
            host: strEnv('PG_HOST', 'localhost'),
            port: intEnv('PG_PORT', 5432),
