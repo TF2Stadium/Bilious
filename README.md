@@ -1,7 +1,9 @@
 # Bilious
 
 Part of the [TF2Stadium](https://github.com/TF2Stadium) project. It is
-a server for organizing and controlling fast paced TF2 tournaments.
+a backend API server to gradually take over some
+of [Helen](https://github.com/TF2Stadium/Helen)'s duties, and also
+support future features.
 
 ## Setup
 
