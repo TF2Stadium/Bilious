@@ -39,6 +39,7 @@ function createRouter(db) {
   const router = Router({mergeParams: true});
 
   router.use('/lobby/:id', createLobbyRouter(db));
+  router.use('/lobby/', createTournamentRouter(db));
   router.use((req, res) => res.status(404).send('Not found'));
 
   return router;
@@ -47,7 +48,9 @@ function createRouter(db) {
 function createLobbyRouter(db) {
   const router = Router({mergeParams: true});
 
-  router.get('', p(async ({params: {id}}, res) => res.send(await lobby.get(db, id))));
+  router.get('', p(
+    async ({params: {id}}, res) => res.send(await lobby.get(db, id))
+  ));
   router.post('', p(async (req, res) => res.send(await lobby.create(db))));
 
   return router;
