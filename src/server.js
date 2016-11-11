@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import createDebug from 'debug';
 import {port} from './env';
-import {createLobby} from './lobby';
+import * as lobby from './lobby';
 const debug = createDebug('bilious');
 
 // simple wrapper for routes that return promises
@@ -32,8 +32,8 @@ function createRouter(db) {
 function createLobbyRouter(db) {
   const router = Router({mergeParams: true});
 
-  router.get('', (req, res) => res.send(`Lobby ${req.params.id}`));
-  router.post('', p(async (req, res) => res.send(await createLobby(db))));
+  router.get('', p(async ({params: {id}}, res) => res.send(await lobby.get(db, id))));
+  router.post('', p(async (req, res) => res.send(await lobby.create(db))));
 
   return router;
 }
