@@ -24,6 +24,13 @@ export function createServer(db) {
   }));
   server.use(createRouter(db));
 
+  if (env.isProd) {
+    server.use((err, req, res, next) => {
+      res.status(403).send('Forbidden');
+      next();
+    });
+  }
+
   server.listen(env.port);
   debug(`Listening on ${env.port}`);
 }
