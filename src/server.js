@@ -38,18 +38,39 @@ export function createServer(db) {
 function createRouter(db) {
   const router = Router({mergeParams: true});
 
-  router.use('/lobby/:id', createLobbyRouter(db));
-  router.use('/lobby/', createTournamentRouter(db));
+  router.use('/lobby/', createLobbyRouter(db));
+  router.use('/tournament/', createTournamentRouter(db));
   router.use((req, res) => res.status(404).send('Not found'));
 
   return router;
 }
 
 function createLobbyRouter(db) {
+  const router = Router({mergeParams: true}),
+    lobbyRouter = Router({mergeParams: true});
+
+  // router.post(''); Create Lobby (Helen does this still)
+  router.use(':id', lobbyRouter);
+
+  lobbyRouter.use(p(async (req, res, next) => {
+    const l = await lobby.get(db, req.params.id);
+    if (l) {
+      req.lobby = l;
+      next();
+    } else {
+      res.status(404).send('Not found');
+    }
+  }));
+  lobbyRouter.get('', ({lobby: l}, res) => res.send(l));
+
+  return router;
+}
+
+function createTournamentRouter(db) {
   const router = Router({mergeParams: true});
 
-  router.get('', p(
-    async ({params: {id}}, res) => res.send(await lobby.get(db, id))
+  router.post('', p(
+    async ({body}, res) => res.send(await tournament.create(db, body))
   ));
   router.post('', p(async (req, res) => res.send(await lobby.create(db))));
 
