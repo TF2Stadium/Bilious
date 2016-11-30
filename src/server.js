@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import jwt from 'express-jwt';
 import * as env from './env';
 import * as lobby from './lobby';
+import * as tournament from './tournament';
 const debug = createDebug('bilious');
 
 // simple wrapper for routes using promises/async/await
