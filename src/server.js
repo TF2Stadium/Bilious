@@ -51,8 +51,8 @@ function createLobbyRouter(db) {
     lobbyRouter = Router({mergeParams: true});
 
   // router.post(''); Create Lobby (Helen does this still)
-  router.use(':id', lobbyRouter);
 
+  router.use('/:id', lobbyRouter);
   lobbyRouter.use(p(async (req, res, next) => {
     const l = await lobby.get(db, req.params.id);
     if (l) {
