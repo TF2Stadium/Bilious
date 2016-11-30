@@ -1,0 +1,13 @@
+-*- mode: restclient-mode; -*-
+:host = http://localhost:8080
+:lobby-id = 12
+:jwt =
+#^ valid jwt needed
+
+# Root
+GET :host/
+Cookie: auth-jwt=:jwt;
+
+# lobby
+GET :host/lobby/12
+Cookie: auth-jwt=:jwt;
