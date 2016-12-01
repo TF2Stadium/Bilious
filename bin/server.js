@@ -5,7 +5,11 @@ var createServer = require('../src/server').createServer,
 
 connectDb().then(
   function (dbConnection) {
-    createServer(dbConnection);
+    try {
+      createServer(dbConnection);
+    } catch (e) {
+      console.error(e);
+    }
   },
   function (err) {
     console.error('Connecting to DB: ', err);
