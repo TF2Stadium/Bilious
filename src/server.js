@@ -39,6 +39,7 @@ export function createServer(db) {
 function createRouter(db) {
   const router = Router({mergeParams: true});
 
+  router.use('/user', ({user}, res) => res.send(user));
   router.use('/lobby/', createLobbyRouter(db));
   router.use('/tournament/', createTournamentRouter(db));
   router.use((req, res) => res.status(404).send('Not found'));

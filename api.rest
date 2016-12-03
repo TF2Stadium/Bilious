@@ -8,6 +8,10 @@
 GET :host/
 Cookie: auth-jwt=:jwt;
 
+# view jwt user info
+GET :host/user
+Cookie: auth-jwt=:jwt;
+
 # lobby
 GET :host/lobby/12
 Cookie: auth-jwt=:jwt;
