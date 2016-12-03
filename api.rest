@@ -15,3 +15,29 @@ Cookie: auth-jwt=:jwt;
 # lobby
 GET :host/lobby/12
 Cookie: auth-jwt=:jwt;
+
+# tournaments
+GET :host/tournament
+Cookie: auth-jwt=:jwt;
+
+# tournament
+GET :host/tournament/12
+Cookie: auth-jwt=:jwt;
+
+# tournament
+POST :host/tournament/
+Content-Type: application/json
+Cookie: auth-jwt=:jwt;
+
+{"type": 1,
+ "server": {"address": "23.92.22.188:27015", "rconPassword": "rc0n"},
+ "map": "mge_training_v8_beta4b",
+ "regionCode": "na",
+ "steamGroup": null,
+ "twitchChannel": null,
+ "twitchRestriction": 0,
+ "servemeId": null,
+ "createdBySteamId": "76561197993836391",
+ "whitelist": "competitive_6v6",
+ "regionLock": false
+}

@@ -36,6 +36,14 @@ export function createServer(db) {
   debug(`Listening on ${env.port}`);
 }
 
+function isAdmin(req, res, next) {
+  if (req.user.role === 2) {
+    next();
+  } else {
+    res.status(403).send('Forbidden');
+  }
+}
+
 function createRouter(db) {
   const router = Router({mergeParams: true});
 
@@ -69,12 +77,29 @@ function createLobbyRouter(db) {
 }
 
 function createTournamentRouter(db) {
-  const router = Router({mergeParams: true});
+  const router = Router({mergeParams: true}),
+    tournamentRouter = Router({mergeParams: true});
 
-  router.post('', p(
-    async ({body}, res) => res.send(await tournament.create(db, body))
+  router.post('', isAdmin, p(async ({body}, res) => {
+    res.send({id: await tournament.create(db, body)});
+  }));
+
+  router.get('', p(
+    async ({body}, res) =>
+      res.send(await tournament.getActive(db))
   ));
-  router.post('', p(async (req, res) => res.send(await lobby.create(db))));
+
+  router.use('/:id', tournamentRouter);
+  tournamentRouter.use(p(async (req, res, next) => {
+    const l = await tournament.get(db, req.params.id);
+    if (l) {
+      req.tournament = l;
+      next();
+    } else {
+      res.status(404).send('Not found');
+    }
+  }));
+  tournamentRouter.get('', ({tournament: l}, res) => res.send(l));
 
   return router;
 }
