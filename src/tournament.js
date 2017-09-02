@@ -1,3 +1,5 @@
+import {one, oneOrNone, any, tx} from './dbHelpers';
+
 export const STATE = {
   WAITING_FOR_PLAYERS: 1,
 };
@@ -6,19 +8,18 @@ export const TYPE = {
   MGE_1v1: 1,
 };
 
-export const create = async (db, {
+export const create = (db, {
   type, map, regionCode, steamGroup, twitchChannel,
   twitchRestriction, servemeId, createdBySteamId,
   whitelist, regionLock, server: {host, rconPassword},
-}) => {
-  return await db.tx(async (t) => {
-    const {id: serverId} = await t.one(`
+}) => tx(db, async (t) => {
+  const {id: serverId} = one(await t.query(`
 INSERT INTO server_records (host, rcon_password)
 VALUES ($1, $2)
 RETURNING id;
-`, [host, rconPassword]);
+`, [host, rconPassword]));
 
-    const {id: tournamentId} = await t.one(`
+  const {id: tournamentId} = await one(t.query(`
 INSERT INTO tournaments (
   type, map_name, region_code, steam_group, twitch_channel,
   twitch_restriction, serveme_id, server_info_id, created_by_steam_id,
@@ -30,16 +31,15 @@ INSERT INTO tournaments (
   type, map, regionCode, steamGroup, twitchChannel,
   twitchRestriction, servemeId, serverId, createdBySteamId,
   whitelist, regionLock,
-]);
+]));
 
-    return tournamentId;
-  });
-};
+  return tournamentId;
+});
 
-export const get = async (db, id) => db.oneOrNone(`
+export const get = async (db, id) => oneOrNone(db.query(`
 SELECT * FROM tournaments WHERE id=$1
-`, [id]);
+`, [id]));
 
-export const getActive = async (db) => db.any(`
+export const getActive = async (db) => any(db.query(`
 SELECT * FROM tournaments WHERE state=1
-`);
+`));
