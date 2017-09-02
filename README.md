@@ -5,6 +5,8 @@ a backend API server to gradually take over some
 of [Helen](https://github.com/TF2Stadium/Helen)'s duties, and also
 support future features.
 
+Name is from [Bilious Hale](https://wiki.teamfortress.com/w/index.php?title=Non-player_characters&redirect=no#Bilious_Hale)
+
 ## Setup
 
     git clone https://github.com/TF2Stadium/Bilious.git
