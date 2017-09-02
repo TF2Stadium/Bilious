@@ -1,18 +1,28 @@
+import {createService} from 'ineedthis';
+import dbService from './db';
+import configurationService from './config';
 import express, {Router} from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import createDebug from 'debug';
 import cookieParser from 'cookie-parser';
 import jwt from 'express-jwt';
-import * as env from './env';
-import * as lobby from './lobby';
-import * as tournament from './tournament';
+import * as lobby from '../lobby';
+import * as tournament from '../tournament';
 const debug = createDebug('bilious');
 
 // simple wrapper for routes using promises/async/await
 const p = routeFn => (req, res, next) => routeFn(req, res, next).catch(next);
 
-export function createServer(db) {
+export default createService('bilious/server', {
+  dependencies: [dbService, configurationService],
+  start: () => ({
+    [dbService.serviceName]: db,
+    [configurationService.serviceName]: env,
+  }) => createServer(db, env),
+});
+
+export function createServer(db, env) {
   const server = express();
 
   server.use(morgan('dev'));

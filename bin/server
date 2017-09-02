@@ -1,19 +1,29 @@
 #!/usr/bin/env node
 
-require('./setup');
+require('localenv');
 
-var createServer = require('../src/server').createServer,
-  connectDb = require('../src/db').connect;
+var ineedthis = require('ineedthis'),
+  start = ineedthis.start,
+  stop = ineedthis.stop;
 
-connectDb().then(
-  function (dbConnection) {
-    try {
-      createServer(dbConnection);
-    } catch (e) {
-      console.error(e);
-    }
-  },
-  function (err) {
-    console.error('Connecting to DB: ', err);
-  }
-);
+start(require('../dist/systems/server').default)
+  .then(function (system) {
+    var stopping = false;
+    process.on('SIGINT', function () {
+      if (stopping) {
+        process.exit(1);
+      }
+      stopping = true;
+      stop(system);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    stop(system).then(
+      () => process.exit(1),
+      err => {
+        console.error(err);
+        process.exit(1);
+      }
+    );
+  });
