@@ -4,7 +4,7 @@
   "description": "TF2Stadium blitz-tournament organizer API server",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/server.js",
+    "start": "node bin/server",
     "start:dev": "nodemon bin/server.js",
     "lint": "eslint --cache src/**.js bin/**.js",
     "test": "echo \"Error: no test specified\""
