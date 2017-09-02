@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 require('localenv');
-
+require('babel-polyfill');
 require('source-map-support').install();
 
 var ineedthis = require('ineedthis'),

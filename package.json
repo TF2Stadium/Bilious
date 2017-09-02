@@ -21,6 +21,7 @@
   "author": "TF2Stadium",
   "license": "GPL-3.0",
   "dependencies": {
+    "babel-polyfill": "6.26.0",
     "body-parser": "1.17.2",
     "cookie-parser": "1.4.3",
     "debug": "3.0.1",
